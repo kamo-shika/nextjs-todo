@@ -2,6 +2,7 @@
 
 import { Bell, ChevronsUpDown, LogOut, Settings, User } from "lucide-react"
 
+import { useUser } from "@/hooks/use-user"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -14,7 +15,26 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
 
-export function NavUser({
+export function NavUser(){
+  const { user } = useUser()
+
+  if (!user) {
+    return null
+  }
+
+  return (
+    <NavUserCom
+      user={{
+        name: user.name || "ユーザー",
+        email: user.email || "",
+        avatar: user.image || "/placeholder.svg",
+      }}
+    />
+  )
+}
+
+
+export function NavUserCom({
   user,
 }: {
   user: {
