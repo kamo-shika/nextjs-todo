@@ -12,13 +12,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { auth } from "@/auth";
 
 export default async function Page() {
-  const session = await auth();
-  if (!session?.user) return null
-  console.log("session", session);
-
   return (
     <SidebarProvider>
       <AppSidebar />
