@@ -1,12 +1,6 @@
 "use client"
 
-import {
-  ArrowUpRight,
-  Link,
-  MoreHorizontal,
-  StarOff,
-  Trash2,
-} from "lucide-react"
+import { MoreHorizontal, Plus, Share, Trash2, type LucideIcon } from "lucide-react"
 
 import {
   DropdownMenu,
@@ -17,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {
   SidebarGroup,
+  SidebarGroupAction,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuAction,
@@ -25,26 +20,30 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
-export function NavFavorites({
-  favorites,
+export function NavProjects({
+  projects,
 }: {
-  favorites: {
+  projects: {
     name: string
     url: string
-    emoji: string
+    icon: LucideIcon
   }[]
 }) {
   const { isMobile } = useSidebar()
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Favorites</SidebarGroupLabel>
+      <SidebarGroupLabel>プロジェクト</SidebarGroupLabel>
+      <SidebarGroupAction>
+        <Plus />
+        <span className="sr-only">新規プロジェクト</span>
+      </SidebarGroupAction>
       <SidebarMenu>
-        {favorites.map((item) => (
+        {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url} title={item.name}>
-                <span>{item.emoji}</span>
+              <a href={item.url}>
+                <item.icon />
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>
@@ -52,42 +51,31 @@ export function NavFavorites({
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover>
                   <MoreHorizontal />
-                  <span className="sr-only">More</span>
+                  <span className="sr-only">その他</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-56 rounded-lg"
+                className="w-48"
                 side={isMobile ? "bottom" : "right"}
                 align={isMobile ? "end" : "start"}
               >
                 <DropdownMenuItem>
-                  <StarOff className="text-muted-foreground" />
-                  <span>Remove from Favorites</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link className="text-muted-foreground" />
-                  <span>Copy Link</span>
+                  <Plus className="text-muted-foreground" />
+                  <span>新規タスク追加</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <ArrowUpRight className="text-muted-foreground" />
-                  <span>Open in New Tab</span>
+                  <Share className="text-muted-foreground" />
+                  <span>プロジェクトを共有</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Trash2 className="text-muted-foreground" />
-                  <span>Delete</span>
+                  <span>プロジェクトを削除</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontal />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   )
